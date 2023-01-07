@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
 import AuthRoles from "../utils/authRoles"
+import bcryrt from "bcryptjs"
+import JWT from  "jsonwebtoken"
+
 
 const userschema = mongoose.Schema(
     {
@@ -35,6 +38,16 @@ const userschema = mongoose.Schema(
     }
 
 )
+
+// @encrypt the user password 
+
+userschema.pre("save",async function(next){
+    if(!this.modified("password")) return next();
+    this.password = await bcryrt.hash(this.password,10);
+    next();
+
+})
+
 export default mongoose.model("User",userschema);
 
 
