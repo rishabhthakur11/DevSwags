@@ -3,6 +3,7 @@ import AuthRoles from "../utils/authRoles"
 import bcryrt from "bcryptjs"
 import JWT from  "jsonwebtoken"
 import config from "../config";
+import crypto from "crypto";
 
 
 
@@ -70,6 +71,16 @@ userschema.methods={
         }
 
     )
+   },
+   generateForgetPasswordToken: function(){
+    const forgotToken = crypto.randomBytes(20).toString('hex');
+
+    // save to DB
+    this.forgetPasswordToken = crypto.createHash("sha256").update(forgotToken).digest("hex");
+    this.forgetPasswordExpiry = Date.now() + 20 * 60 * 1000;
+
+    // return the value to user 
+    return forgotToken;
    } 
 }
 
