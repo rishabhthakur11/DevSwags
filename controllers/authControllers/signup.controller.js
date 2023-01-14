@@ -24,19 +24,19 @@ const signUp = asyncHandler(async (req, res) => {
     throw new CustomError("User already existed", 400);
   }
 
-  const user = await user.create({
+  const newUser = await user.create({
     name,
     email,
     password,
   });
-  const token = user.genJwtToken();
-  user.password = undefined;
+  const token = newUser.genJwtToken();
+  newUser.password = undefined;
 
   res.cookie("token", token, cookieOptions);
   res.status(200).json({
     success: true,
     token,
-    user,
+    newUser,
   });
 });
 module.exports = signUp;
