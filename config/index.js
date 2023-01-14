@@ -1,6 +1,5 @@
-import { dotenv } from "dotenv";
+require("dotenv").config();
 
-dotenv.config();
 
 const config = {
   JWT_SECRET: process.env.JWT_SECRET,
@@ -9,4 +8,4 @@ const config = {
   PORT: process.env.PORT
 };
 
-export default config;
+module.exports = config;
