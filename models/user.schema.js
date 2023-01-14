@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const config = require("../config/index");
 
-const userschema = mongoose.Schema(
+const userSchema = mongoose.Schema(
   {
     name: {
       type: String,
@@ -38,21 +38,21 @@ const userschema = mongoose.Schema(
 
 // @encrypt the user password
 
-userschema.pre("save", async function (next) {
-  if (!this.modified("password")) return next();
-  this.password = await bcryrt.hash(this.password, 10);
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+  this.password = await bcrypt.hash(this.password, 10);
   next();
 });
 
 // Adding more features to your schema
-userschema.methods = {
+userSchema.methods = {
   // compare the password
   comparePassword: async function (enteredPassword) {
-    return await bcryrt.compare(enteredPassword, this.password);
+    return await bcrypt.compare(enteredPassword, this.password);
   },
   // generate the JWT token
   getJwtToken: function () {
-    return JWT.sign(
+    return jwt.sign(
       {
         _id: this._id,
         role: this.role,
@@ -63,6 +63,7 @@ userschema.methods = {
       }
     );
   },
+
   generateForgetPasswordToken: function () {
     const forgotToken = crypto.randomBytes(20).toString("hex");
 
@@ -78,4 +79,4 @@ userschema.methods = {
   },
 };
 
-module.exports = mongoose.model("user", userschema);
+module.exports = mongoose.model("user", userSchema);

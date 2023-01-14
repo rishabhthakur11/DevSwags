@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
-import orderStatus from "../utils/orderStatus";
-import paymentMode from "../utils/paymentMode";
+const mongoose = require("mongoose");
+const orderStatus = require("../utils/orderStatus");
+const paymentMode = require("../utils/paymentMode");
 
 const orderSchema = new mongoose.Schema(
   {
@@ -16,41 +16,41 @@ const orderSchema = new mongoose.Schema(
           price: Number,
         },
       ],
-      required:true,
+      required: true,
     },
-    user:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"user",
-        required:true
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
     },
-    phoneNumber:{
-        type:Number,
-        required:[true,"Please provide the phone Number"]
+    phoneNumber: {
+      type: Number,
+      required: [true, "Please provide the phone Number"],
     },
-    address:{
-        type:String,
-        required:true,
+    address: {
+      type: String,
+      required: true,
     },
-    amount:{
-        type:Number,
-        required:true
+    amount: {
+      type: Number,
+      required: true,
     },
     coupon: String,
     transactionId: String,
-    status:{
-        type:String,
-        enum: Object.values(orderStatus),
-        default: orderStatus.ORDERED,
+    status: {
+      type: String,
+      enum: Object.values(orderStatus),
+      default: orderStatus.ORDERED,
     },
     paymentMode: {
-        type: String,
-        enum: Obejct.values(paymentMode),
-        default: paymentMode.COD,
-      },
+      type: String,
+      enum: Obejct.values(paymentMode),
+      default: paymentMode.COD,
+    },
   },
   {
     timestamps: true,
   }
 );
 
-export default mongoose.model("order", orderSchema);
+module.exports = mongoose.model("order", orderSchema);
