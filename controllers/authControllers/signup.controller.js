@@ -11,7 +11,7 @@ const cookieOptions = require("../../utils/cookieOptions.js");
  * @return User Object
  **************************************************************/
 
-const signUp = asyncHandler(async (req, res) => {
+const signup = asyncHandler(async (req, res) => {
   // signUp controller
   const { name, email, password } = req.body;
   // Sanitize and validate the entries
@@ -29,7 +29,7 @@ const signUp = asyncHandler(async (req, res) => {
     email,
     password,
   });
-  const token = newUser.genJwtToken();
+  const token = newUser.getJwtToken();
   newUser.password = undefined;
 
   res.cookie("token", token, cookieOptions);
@@ -39,4 +39,4 @@ const signUp = asyncHandler(async (req, res) => {
     newUser,
   });
 });
-module.exports = signUp;
+module.exports = signup;
