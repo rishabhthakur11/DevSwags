@@ -4,7 +4,7 @@ const CustomError = require("../../utils/customError");
 const cookieOptions = require("../../utils/cookieOptions.js");
 
 /*************************************************************
- * @Signup
+ * @Signup Post Request
  * @route http://localhost:4000/api/auth/signup
  * @description User signUp controller for creating new user
  * @parameters name , email , Password
